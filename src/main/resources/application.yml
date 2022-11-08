@@ -15,3 +15,7 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: assign_id
+
+#七牛云外链文件地址
+qiniu:
+  path: http://rl1b2mrrg.hn-bkt.clouddn.com/
