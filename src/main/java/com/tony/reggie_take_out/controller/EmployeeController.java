@@ -1,14 +1,12 @@
 package com.tony.reggie_take_out.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tony.reggie_take_out.common.Result;
 import com.tony.reggie_take_out.entity.Employee;
 import com.tony.reggie_take_out.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -21,12 +19,32 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PostMapping("/login")
-    public Result<Employee> login(@RequestBody Employee employee, HttpServletRequest request) {
+    public Result<Employee> login(HttpServletRequest request, @RequestBody Employee employee) {
         return employeeService.login(request, employee);
     }
 
     @PostMapping("/logout")
     public Result<String> logout(HttpServletRequest request) {
         return employeeService.logout(request);
+    }
+
+    @PostMapping
+    public Result<String> save(HttpServletRequest request, @RequestBody Employee employee) {
+        return employeeService.save(request, employee);
+    }
+
+    @GetMapping("/page")
+    public Result<Page> page(int page, int pageSize, String name) {
+        return employeeService.page(page, pageSize, name);
+    }
+
+    @PutMapping
+    public Result<String> update(HttpServletRequest request, @RequestBody Employee employee) {
+        return employeeService.update(request, employee);
+    }
+
+    @GetMapping("/{id}")
+    public Result<Employee> getById(@PathVariable Long id) {
+        return employeeService.getById(id);
     }
 }
