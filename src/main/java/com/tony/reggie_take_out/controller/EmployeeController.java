@@ -40,6 +40,8 @@ public class EmployeeController {
 
     @PutMapping
     public Result<String> update(HttpServletRequest request, @RequestBody Employee employee) {
+        long id = Thread.currentThread().getId();
+        log.info("本次线程的id:{}", id);
         return employeeService.update(request, employee);
     }
 

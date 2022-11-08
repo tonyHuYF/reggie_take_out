@@ -15,7 +15,6 @@ import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -64,11 +63,6 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 
             //设置初始密码
             employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
-            employee.setCreateTime(LocalDateTime.now());
-            employee.setUpdateTime(LocalDateTime.now());
-            employee.setCreateUser(empId);
-            employee.setUpdateUser(empId);
-
             employeeMapper.insert(employee);
         }
 
@@ -93,8 +87,6 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         log.info("修改员工,员工信息：{}", employee.toString());
         //获取当前用户Id
         Long empId = (Long) request.getSession().getAttribute("employee");
-        employee.setUpdateUser(empId);
-        employee.setUpdateTime(LocalDateTime.now());
         employeeMapper.updateById(employee);
         return Result.success("员工信息修改成功");
     }

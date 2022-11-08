@@ -1,6 +1,7 @@
 package com.tony.reggie_take_out.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.tony.reggie_take_out.common.BaseContext;
 import com.tony.reggie_take_out.common.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
@@ -33,6 +34,7 @@ public class LoginCheckFilter implements Filter {
                 "/front/**"
         };
 
+
         //判断是否放行
         if (check(urls, requestURI)) {
             log.info("本次请求{}不需要处理", requestURI);
@@ -43,6 +45,11 @@ public class LoginCheckFilter implements Filter {
         //判断是否已登录
         if (request.getSession().getAttribute("employee") != null) {
             log.info("用户已登录，用户id:{}", request.getSession().getAttribute("employee"));
+
+            long id = Thread.currentThread().getId();
+            log.info("本次线程的id:{}", id);
+
+            BaseContext.setCurrentId((Long) request.getSession().getAttribute("employee"));
             filterChain.doFilter(request, response);
             return;
         }
