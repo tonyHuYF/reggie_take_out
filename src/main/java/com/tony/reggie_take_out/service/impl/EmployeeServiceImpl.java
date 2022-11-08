@@ -54,18 +54,12 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
     }
 
     @Override
-    public Result<String> save(HttpServletRequest request, Employee employee) {
+    public Result<String> insert(Employee employee) {
 
         log.info("新增员工,员工信息：{}", employee.toString());
-        if (employee != null) {
-            //获取当前用户
-            Long empId = (Long) request.getSession().getAttribute("employee");
-
-            //设置初始密码
-            employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
-            employeeMapper.insert(employee);
-        }
-
+        //设置初始密码
+        employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
+        employeeMapper.insert(employee);
         return Result.success("新增员工成功");
     }
 
@@ -83,10 +77,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
     }
 
     @Override
-    public Result<String> update(HttpServletRequest request, Employee employee) {
+    public Result<String> update(Employee employee) {
         log.info("修改员工,员工信息：{}", employee.toString());
-        //获取当前用户Id
-        Long empId = (Long) request.getSession().getAttribute("employee");
         employeeMapper.updateById(employee);
         return Result.success("员工信息修改成功");
     }

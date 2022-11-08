@@ -12,12 +12,12 @@ public interface EmployeeService extends IService<Employee> {
 
     public Result<String> logout(HttpServletRequest request);
 
-    public Result<String> save(HttpServletRequest request, Employee employee);
+    public Result<String> insert(Employee employee);
 
-    Result<Page> page(int page, int pageSize, String name);
+    public Result<Page> page(int page, int pageSize, String name);
 
-    Result<String> update(HttpServletRequest request, Employee employee);
+    public  Result<String> update( Employee employee);
 
-    Result<Employee> getById(Long id);
+    public Result<Employee> getById(Long id);
 }
 

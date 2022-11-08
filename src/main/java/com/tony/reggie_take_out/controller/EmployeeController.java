@@ -29,8 +29,8 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Result<String> save(HttpServletRequest request, @RequestBody Employee employee) {
-        return employeeService.save(request, employee);
+    public Result<String> save(@RequestBody Employee employee) {
+        return employeeService.insert(employee);
     }
 
     @GetMapping("/page")
@@ -39,10 +39,10 @@ public class EmployeeController {
     }
 
     @PutMapping
-    public Result<String> update(HttpServletRequest request, @RequestBody Employee employee) {
+    public Result<String> update(@RequestBody Employee employee) {
         long id = Thread.currentThread().getId();
         log.info("本次线程的id:{}", id);
-        return employeeService.update(request, employee);
+        return employeeService.update(employee);
     }
 
     @GetMapping("/{id}")
