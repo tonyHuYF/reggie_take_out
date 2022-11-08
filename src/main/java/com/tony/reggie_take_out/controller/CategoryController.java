@@ -33,4 +33,9 @@ public class CategoryController {
         return categoryService.delete(id);
     }
 
+    @PutMapping
+    public Result<String> update(@RequestBody Category category){
+        return categoryService.update(category);
+    }
+
 }

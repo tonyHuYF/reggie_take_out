@@ -11,4 +11,6 @@ public interface CategoryService extends IService<Category> {
     public Result<Page> page(int page, int pageSize);
 
     public Result<String> delete(Long id);
+
+    public Result<String> update(Category category);
 }

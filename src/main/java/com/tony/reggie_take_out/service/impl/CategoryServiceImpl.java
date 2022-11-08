@@ -3,9 +3,14 @@ package com.tony.reggie_take_out.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.tony.reggie_take_out.common.CustomException;
 import com.tony.reggie_take_out.common.Result;
 import com.tony.reggie_take_out.entity.Category;
+import com.tony.reggie_take_out.entity.Dish;
+import com.tony.reggie_take_out.entity.Setmeal;
 import com.tony.reggie_take_out.mapper.CategoryMapper;
+import com.tony.reggie_take_out.mapper.DishMapper;
+import com.tony.reggie_take_out.mapper.SetmealMapper;
 import com.tony.reggie_take_out.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,6 +28,10 @@ import javax.annotation.Resource;
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
     @Resource
     private CategoryMapper categoryMapper;
+    @Resource
+    private DishMapper dishMapper;
+    @Resource
+    private SetmealMapper setmealMapper;
 
     @Override
     public Result<String> insert(Category category) {
@@ -42,7 +51,27 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public Result<String> delete(Long id) {
         log.info("删除分类,分类信息id：{}", id);
+
+        //是否关联了菜品
+        Long count = dishMapper.selectCount(new LambdaQueryWrapper<Dish>().eq(Dish::getCategoryId, id));
+        if (count > 0) {
+            throw new CustomException("当前分类关联了菜品，不能删除");
+        }
+
+        //是否关联了套餐
+        Long count2 = setmealMapper.selectCount(new LambdaQueryWrapper<Setmeal>().eq(Setmeal::getCategoryId, id));
+        if (count2 > 0) {
+            throw new CustomException("当前分类关联了套餐，不能删除");
+        }
+
         categoryMapper.deleteById(id);
         return Result.success("分类信息删除成功");
+    }
+
+    @Override
+    public Result<String> update(Category category) {
+        log.info("修改分类,分类信息：{}", category);
+        categoryMapper.updateById(category);
+        return Result.success("分类信息修改成功");
     }
 }
