@@ -7,6 +7,7 @@ import com.tony.reggie_take_out.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 分类管理
@@ -37,5 +38,12 @@ public class CategoryController {
     public Result<String> update(@RequestBody Category category){
         return categoryService.update(category);
     }
+
+    @GetMapping("/list")
+    public Result<List<Category>> list(Category category){
+        return categoryService.list(category);
+    }
+
+
 
 }

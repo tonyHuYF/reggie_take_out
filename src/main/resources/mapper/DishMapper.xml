@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tony.reggie_take_out.mapper.DishMapper">
+
+    <select id="page" parameterType="java.lang.String" resultType="com.tony.reggie_take_out.dto.DishDto">
+        select d.*, ca.name as categoryName
+        from dish d
+        left join category ca on ca.id = d.category_id
+        where 1=1
+        <if test="name != null">
+            AND ca.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+    </select>
+</mapper>

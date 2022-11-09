@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 分类管理
@@ -73,5 +74,14 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         log.info("修改分类,分类信息：{}", category);
         categoryMapper.updateById(category);
         return Result.success("分类信息修改成功");
+    }
+
+    @Override
+    public Result<List<Category>> list(Category category) {
+        LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(category.getType() != null, Category::getType, category.getType());
+        wrapper.orderByAsc(Category::getSort).orderByDesc(Category::getUpdateTime);
+        List<Category> categories = categoryMapper.selectList(wrapper);
+        return Result.success(categories);
     }
 }

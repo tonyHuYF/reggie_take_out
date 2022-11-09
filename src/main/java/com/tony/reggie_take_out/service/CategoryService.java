@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.tony.reggie_take_out.common.Result;
 import com.tony.reggie_take_out.entity.Category;
 
+import java.util.List;
+
 public interface CategoryService extends IService<Category> {
     public Result<String> insert(Category category);
 
@@ -13,4 +15,6 @@ public interface CategoryService extends IService<Category> {
     public Result<String> delete(Long id);
 
     public Result<String> update(Category category);
+
+    public Result<List<Category>> list(Category category);
 }
