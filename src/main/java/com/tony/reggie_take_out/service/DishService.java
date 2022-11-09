@@ -6,6 +6,8 @@ import com.tony.reggie_take_out.common.Result;
 import com.tony.reggie_take_out.dto.DishDto;
 import com.tony.reggie_take_out.entity.Dish;
 
+import java.util.List;
+
 public interface DishService extends IService<Dish> {
     public Result<String> insert(DishDto dishDto);
 
@@ -14,4 +16,6 @@ public interface DishService extends IService<Dish> {
     public Result<DishDto> getById (Long id);
 
     public Result<String> update(DishDto dto);
+
+    public Result<List<Dish>> list(Dish dish);
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tony.reggie_take_out.mapper.SetmealMapper">
+
+    <select id="page" parameterType="java.lang.String" resultType="com.tony.reggie_take_out.dto.SetmealDto">
+        select s.*, ca.name as categoryName
+        from setmeal s
+        left join category ca on ca.id = s.category_id
+        where 1=1
+        <if test="name != null">
+            AND s.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+    </select>
+</mapper>

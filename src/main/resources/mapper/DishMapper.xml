@@ -9,7 +9,7 @@
         left join category ca on ca.id = d.category_id
         where 1=1
         <if test="name != null">
-            AND ca.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+            AND d.name LIKE CONCAT(CONCAT('%',#{name}),'%')
         </if>
     </select>
 </mapper>

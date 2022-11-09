@@ -1,6 +1,7 @@
 package com.tony.reggie_take_out.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -74,5 +75,17 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
             dishFlavorMapper.insert(p);
         });
         return Result.success("修改菜品成功");
+    }
+
+    @Override
+    public Result<List<Dish>> list(Dish dish) {
+        LambdaQueryWrapper<Dish> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(ObjectUtil.isNotEmpty(dish.getCategoryId()), Dish::getCategoryId, dish.getCategoryId());
+        //只查询启售的
+        wrapper.eq(Dish::getStatus, 1);
+        wrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
+
+        List<Dish> dishes = dishMapper.selectList(wrapper);
+        return Result.success(dishes);
     }
 }
