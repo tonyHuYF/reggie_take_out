@@ -24,4 +24,14 @@ public class DishController {
         return dishService.page(page, pageSize, name);
     }
 
+    @GetMapping("/{id}")
+    public Result<DishDto> getById(@PathVariable Long id){
+        return dishService.getById(id);
+    }
+
+    @PutMapping
+    public Result<String> update(@RequestBody DishDto dto){
+        return dishService.update(dto);
+    }
+
 }

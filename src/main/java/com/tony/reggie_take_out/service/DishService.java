@@ -10,4 +10,8 @@ public interface DishService extends IService<Dish> {
     public Result<String> insert(DishDto dishDto);
 
     public Result<Page<DishDto>> page(int page, int pageSize, String name);
+
+    public Result<DishDto> getById (Long id);
+
+    public Result<String> update(DishDto dto);
 }
