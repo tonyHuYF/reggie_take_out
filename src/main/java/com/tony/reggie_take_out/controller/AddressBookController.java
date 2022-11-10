@@ -29,4 +29,9 @@ public class AddressBookController {
         return addressBookService.list(addressBook);
 
     }
+
+    @GetMapping("/default")
+    public Result<AddressBook> getDefault(){
+        return addressBookService.getDefault();
+    }
 }

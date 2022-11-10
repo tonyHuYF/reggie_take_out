@@ -12,4 +12,6 @@ public interface AddressBookService extends IService<AddressBook> {
     public Result<AddressBook> setDefault(AddressBook addressBook);
 
     public Result<List<AddressBook>> list(AddressBook addressBook);
+
+    public Result<AddressBook> getDefault();
 }

@@ -53,4 +53,13 @@ public class AddressBookServiceImpl extends ServiceImpl<AddressBookMapper, Addre
         List<AddressBook> list = addressBookMapper.selectList(wrapper);
         return Result.success(list);
     }
+
+    @Override
+    public Result<AddressBook> getDefault() {
+        LambdaQueryWrapper<AddressBook> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(AddressBook::getUserId, BaseContext.getCurrentId());
+        wrapper.eq(AddressBook::getIsDefault, 1);
+        AddressBook addressBook = addressBookMapper.selectOne(wrapper);
+        return Result.success(addressBook);
+    }
 }
