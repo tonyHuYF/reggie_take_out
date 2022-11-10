@@ -4,13 +4,11 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tony.reggie_take_out.common.CustomException;
 import com.tony.reggie_take_out.common.Result;
 import com.tony.reggie_take_out.entity.User;
 import com.tony.reggie_take_out.mapper.UserMapper;
 import com.tony.reggie_take_out.service.UserService;
-import com.tony.reggie_take_out.untils.SMSUtils;
 import com.tony.reggie_take_out.untils.ValidateCodeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -44,12 +42,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
                 //发送短信
                 String[] param = {code, "5"};
-                SMSUtils.sendShortMessage(SMSUtils.VALIDATE_CODE_2, phone, param);
+//                SMSUtils.sendShortMessage(SMSUtils.VALIDATE_CODE_2, phone, param);
 
                 //保存验证码到session
                 session.setAttribute(phone, code);
             }
-        } catch (TencentCloudSDKException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             throw new CustomException("发送验证码失败");
         }
