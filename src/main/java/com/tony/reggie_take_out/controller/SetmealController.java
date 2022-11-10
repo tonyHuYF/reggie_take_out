@@ -2,7 +2,9 @@ package com.tony.reggie_take_out.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tony.reggie_take_out.common.Result;
+import com.tony.reggie_take_out.dto.DishDto;
 import com.tony.reggie_take_out.dto.SetmealDto;
+import com.tony.reggie_take_out.entity.Setmeal;
 import com.tony.reggie_take_out.service.SetmealService;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,4 +31,15 @@ public class SetmealController {
     public Result<String> delete(@RequestParam(value = "ids") List<Long> ids) {
         return setmealService.delete(ids);
     }
+
+    @GetMapping("/list")
+    public Result<List<SetmealDto>>list(Setmeal setmeal){
+        return setmealService.list(setmeal);
+    }
+
+    @GetMapping("/dish/{id}")
+    public Result<List<DishDto>> getBySetmealId(@PathVariable Long id){
+        return setmealService.getBySetmealId(id);
+    }
+
 }

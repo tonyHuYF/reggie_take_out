@@ -37,7 +37,7 @@ public class DishController {
     }
 
     @GetMapping("/list")
-    public Result<List<Dish>> list(Dish dish){
+    public Result<List<DishDto>> list(Dish dish){
         return dishService.list(dish);
     }
 

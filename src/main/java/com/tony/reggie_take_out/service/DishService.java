@@ -17,5 +17,5 @@ public interface DishService extends IService<Dish> {
 
     public Result<String> update(DishDto dto);
 
-    public Result<List<Dish>> list(Dish dish);
+    public Result<List<DishDto>> list(Dish dish);
 }

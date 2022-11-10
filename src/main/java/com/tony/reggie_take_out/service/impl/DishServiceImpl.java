@@ -7,8 +7,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tony.reggie_take_out.common.Result;
 import com.tony.reggie_take_out.dto.DishDto;
+import com.tony.reggie_take_out.entity.Category;
 import com.tony.reggie_take_out.entity.Dish;
 import com.tony.reggie_take_out.entity.DishFlavor;
+import com.tony.reggie_take_out.mapper.CategoryMapper;
 import com.tony.reggie_take_out.mapper.DishFlavorMapper;
 import com.tony.reggie_take_out.mapper.DishMapper;
 import com.tony.reggie_take_out.service.DishService;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -27,6 +30,8 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     private DishMapper dishMapper;
     @Resource
     private DishFlavorMapper dishFlavorMapper;
+    @Resource
+    private CategoryMapper categoryMapper;
 
     @Override
     public Result<String> insert(DishDto dishDto) {
@@ -78,7 +83,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     }
 
     @Override
-    public Result<List<Dish>> list(Dish dish) {
+    public Result<List<DishDto>> list(Dish dish) {
         LambdaQueryWrapper<Dish> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(ObjectUtil.isNotEmpty(dish.getCategoryId()), Dish::getCategoryId, dish.getCategoryId());
         //只查询启售的
@@ -86,6 +91,26 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         wrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
 
         List<Dish> dishes = dishMapper.selectList(wrapper);
-        return Result.success(dishes);
+
+        List<DishDto> dishDtoList = dishes.stream().map((item) -> {
+            DishDto dto = new DishDto();
+            BeanUtil.copyProperties(item, dto);
+
+            Category category = categoryMapper.selectById(item.getCategoryId());
+
+            if (category != null) {
+                dto.setCategoryName(category.getName());
+            }
+
+            //当前菜品的口味
+            List<DishFlavor> dishFlavors = dishFlavorMapper.selectList(
+                    new LambdaQueryWrapper<DishFlavor>().eq(DishFlavor::getDishId, dto.getId()));
+            dto.setFlavors(dishFlavors);
+
+            return dto;
+        }).collect(Collectors.toList());
+
+
+        return Result.success(dishDtoList);
     }
 }
