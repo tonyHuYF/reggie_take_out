@@ -8,6 +8,10 @@ spring:
       url: jdbc:mysql://175.178.108.7:3306/reggie?useUnicode=true&characterEncoding=utf8&autoReconnect=true&rewriteBatchedStatements=TRUE&serverTimezone=Hongkong&allowMultiQueries=true&nullCatalogMeansCurrent=true
       username: root
       password: TT9pC9oNq8y!&BMq
+  redis:
+    host: 175.178.108.7
+    port: 6379
+    password: BHuEqwbXF6euRKYq
 
 mybatis-plus:
   configuration:
